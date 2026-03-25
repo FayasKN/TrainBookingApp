@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 class Bogie {
@@ -32,22 +33,21 @@ public class TrainConsistManagementApp {
 
         List<Bogie> passengerBogies = new ArrayList<>();
         passengerBogies.add(new Bogie("Sleeper", 72));
+        passengerBogies.add(new Bogie("Sleeper", 72));
+        passengerBogies.add(new Bogie("AC Chair", 78));
         passengerBogies.add(new Bogie("AC Chair", 78));
         passengerBogies.add(new Bogie("First Class", 24));
         passengerBogies.add(new Bogie("General", 90));
 
-        System.out.println("--- All Passenger Bogies ---");
-        for (Bogie bogie : passengerBogies) {
-            System.out.println(bogie);
-        }
+        Map<String, List<Bogie>> groupedBogies = passengerBogies.stream()
+                .collect(Collectors.groupingBy(Bogie::getName));
 
-        List<Bogie> highCapacityBogies = passengerBogies.stream()
-                .filter(b -> b.getCapacity() > 60)
-                .collect(Collectors.toList());
-
-        System.out.println("\n--- Filtered Bogies (Capacity > 60) ---");
-        for (Bogie bogie : highCapacityBogies) {
-            System.out.println(bogie);
+        System.out.println("--- Grouped Bogies by Type ---");
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("Category: " + entry.getKey());
+            for (Bogie bogie : entry.getValue()) {
+                System.out.println("   -> " + bogie);
+            }
         }
     }
 }
